@@ -204,12 +204,13 @@
       </p>
 
       <div class="hero-tps">
-        <div class="ht-num">1085<span class="ht-unit">tok/s</span></div>
+        <div class="ht-num"><span class="ht-pre">up to</span>1476<span class="ht-unit">tok/s</span></div>
         <p class="ht-cap">
           JetFlow on its own engine, with no external serving dependency, on a single B200 (Qwen3-8B,
-          MATH-500, batch&nbsp;1, budget&nbsp;127): a <strong>6.64&times;</strong> end-to-end speedup over
-          autoregressive decoding, at &tau;=8.93 accepted tokens per round.
-          <span class="ht-note">Measured wall-clock on the JetFlow engine (single B200); MATH-500 32-prompt subset.</span>
+          budget&nbsp;127), generating <strong>12 chained MATH-500 problems</strong>. Per-problem
+          throughput rises and falls with acceptance: peaking at <strong>1476&nbsp;tok/s</strong> and
+          sustaining <strong>~1000&nbsp;tok/s</strong> on average, at &tau;=9.17 accepted tokens per round.
+          <span class="ht-note">Real JetFlow e3-engine generation; per-round constant-time pacing reconstructed from the measured throughput.</span>
         </p>
       </div>
 
@@ -218,21 +219,23 @@
           <div class="figure-toolbar">
             <button class="run-button" id="engineRunButton" type="button">Replay</button>
             <span class="metric-line">JetFlow engine · Qwen3-8B · single B200 · budget&nbsp;127</span>
-            <span class="illus-badge">illustrative · sample text</span>
+            <span class="illus-badge">real generation · paced</span>
           </div>
           <div class="player-shell">
             <div class="ed-stage">
               <div class="lane-card leader ed-card">
                 <div class="terminal-chrome">
                   <span class="lane-title">JetFlow · single-stream</span>
+                  <span class="ed-prob" data-ed-prob>problem 1 / 12</span>
                   <span class="ed-badge" data-ed-state>idle</span>
                 </div>
                 <div class="terminal-body">
                   <pre class="stream-text ed-stream" data-ed-stream></pre>
+                  <div class="ed-spark" data-ed-spark aria-hidden="true"></div>
                   <div class="metric-grid ed-metrics">
-                    <div class="metric"><span>throughput</span><strong data-ed-tps>0 tok/s</strong></div>
-                    <div class="metric"><span>speedup</span><strong>6.64&times;</strong></div>
-                    <div class="metric"><span>accepted / round</span><strong>&tau; 8.93</strong></div>
+                    <div class="metric"><span>this problem</span><strong data-ed-tps>0 tok/s</strong></div>
+                    <div class="metric"><span>average</span><strong>~1000 tok/s</strong></div>
+                    <div class="metric"><span>accepted / round</span><strong>&tau; 9.17</strong></div>
                   </div>
                   <div class="progress-track ed-track"><div class="progress-fill" data-ed-fill></div></div>
                 </div>
@@ -241,10 +244,10 @@
           </div>
         </div>
         <figcaption class="cap">
-          JetFlow decoding a longer MATH-500 solution on a single B200, paced to the measured
-          <strong>1085 tokens per second</strong> (6.64&times; over autoregressive decoding,
-          &tau;=8.93 accepted tokens per round).
-          <span class="src">Illustrative replay paced to the measured throughput; placeholder text, a real recorded tape drops in before ship.</span>
+          JetFlow generating 12 chained MATH-500 solutions on a single B200, paced to the measured
+          per-round throughput. The per-problem rate varies with acceptance, peaking at
+          <strong>1476&nbsp;tok/s</strong>, averaging <strong>~1000&nbsp;tok/s</strong>, at &tau;=9.17 per round.
+          <span class="src">Real engine generation (answer text + accepted tokens); per-token pacing reconstructed from the measured throughput, not a per-token wall-clock recording.</span>
         </figcaption>
       </figure>
     </section>
@@ -433,44 +436,90 @@
 
   <script src="treewalk.js"></script>
 
+  <script src="engine_tape.js"></script>
   <script>
-    /* §4 engine single-column replay: stream a longer solution paced to the
-       measured 1085 tok/s (illustrative; placeholder text, real tape later). */
+    /* §4 engine demo: tape-driven replay of REAL JetFlow e3-engine generation over
+       12 chained MATH-500 problems. The per-problem TPS steps once per problem (not a
+       per-frame ticker); a 12-bar sparkline shows the whole 724->1476 spread; pacing is
+       the tape's reconstructed per-round timing, slowed for legibility. */
     (function () {
       var fig = document.getElementById("engineDemo");
-      if (!fig) return;
+      var tape = window.JF_ENGINE_TAPE;
+      if (!fig || !tape) return;
       var streamEl = fig.querySelector("[data-ed-stream]");
       var tpsEl = fig.querySelector("[data-ed-tps]");
       var fillEl = fig.querySelector("[data-ed-fill]");
       var stateEl = fig.querySelector("[data-ed-state]");
+      var probEl = fig.querySelector("[data-ed-prob]");
+      var sparkEl = fig.querySelector("[data-ed-spark]");
       var btn = document.getElementById("engineRunButton");
-      var TEXT =
-        "We are told the right triangle is isosceles with hypotenuse 8. Let each leg be x. " +
-        "By the Pythagorean theorem, x^2 + x^2 = 8^2, so 2x^2 = 64 and x^2 = 32, giving x = 4√2. " +
-        "The area of a right triangle is half the product of its legs, so the area is " +
-        "(1/2)(4√2)(4√2) = (1/2)(32) = 16. Checking: 4√2 ≈ 5.657, and 5.657^2 ≈ 32, " +
-        "so 2(32) = 64 = 8^2 as required. Hence the area is 16 square units.";
+
+      var events = tape.events;
+      var ppt = tape.lane.run_config.per_problem_tps || [];
+      var nProb = ppt.length || 12;
+      var peak = Math.max.apply(null, ppt.map(function (p) { return p.tps; }));
+
+      var fullText = "", offsets = [], times = [];
+      for (var i = 0; i < events.length; i++) {
+        fullText += (events[i].text || "");
+        offsets.push(fullText.length);
+        times.push(events[i].t_ms || 0);
+      }
+      var lastEv = events[events.length - 1] || {};
+      var tapeEnd = (times[times.length - 1] || 0) + (lastEv.dur_ms || 0) || 1;
+
+      var bars = [];
+      if (sparkEl && !sparkEl.childElementCount) {
+        for (var b = 0; b < nProb; b++) {
+          var bar = document.createElement("span");
+          bar.className = "ed-bar";
+          bar.style.height = Math.round(22 + 78 * (ppt[b].tps / peak)) + "%";
+          bar.title = "problem " + (b + 1) + ": " + Math.round(ppt[b].tps) + " tok/s";
+          sparkEl.appendChild(bar);
+          bars.push(bar);
+        }
+      } else if (sparkEl) {
+        bars = Array.prototype.slice.call(sparkEl.children);
+      }
+
       var reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-      var DUR = 7000, raf = null, t0 = null;
+      var DUR = 12000, raf = null, t0 = null, curProb = -1;
+
+      function setProblem(prob) {
+        if (prob === curProb) return;
+        curProb = prob;
+        var p = ppt[prob - 1];
+        if (p) {
+          tpsEl.textContent = Math.round(p.tps) + " tok/s";
+          probEl.textContent = "problem " + prob + " / " + nProb;
+        }
+        for (var k = 0; k < bars.length; k++) bars[k].classList.toggle("cur", k === prob - 1);
+      }
+
+      function draw(tapeT) {
+        var lo = 0, hi = times.length - 1, idx = 0;
+        while (lo <= hi) { var mid = (lo + hi) >> 1; if (times[mid] <= tapeT) { idx = mid; lo = mid + 1; } else hi = mid - 1; }
+        streamEl.textContent = fullText.slice(0, offsets[idx]);
+        streamEl.scrollTop = streamEl.scrollHeight;
+        setProblem(events[idx].prob || 1);
+      }
+
       function frame(ts) {
         if (t0 === null) t0 = ts;
         var p = Math.min(1, (ts - t0) / DUR);
-        streamEl.textContent = TEXT.slice(0, Math.round(p * TEXT.length));
-        streamEl.scrollTop = streamEl.scrollHeight;
         fillEl.style.width = (p * 100).toFixed(1) + "%";
-        tpsEl.textContent = Math.round(700 + 385 * p) + " tok/s";
+        draw(p * tapeEnd);
         if (p < 1) { raf = window.requestAnimationFrame(frame); }
-        else { tpsEl.textContent = "1085 tok/s"; stateEl.textContent = "1085 tok/s"; }
+        else { stateEl.textContent = "done"; }
       }
+
       function run() {
         if (raf) window.cancelAnimationFrame(raf);
-        t0 = null; stateEl.textContent = "streaming";
-        if (reduce.matches) {
-          streamEl.textContent = TEXT; fillEl.style.width = "100%";
-          tpsEl.textContent = "1085 tok/s"; stateEl.textContent = "1085 tok/s"; return;
-        }
+        t0 = null; curProb = -1; stateEl.textContent = "streaming";
+        if (reduce.matches) { draw(tapeEnd); fillEl.style.width = "100%"; stateEl.textContent = "done"; return; }
         raf = window.requestAnimationFrame(frame);
       }
+
       if (btn) btn.addEventListener("click", run);
       if ("IntersectionObserver" in window) {
         var seen = false;
