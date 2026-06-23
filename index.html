@@ -13,8 +13,7 @@
     (function () {
       // honour an explicit user choice; otherwise follow the OS colour scheme
       var stored = localStorage.getItem("jf-theme");
-      var osDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-      if (stored === "dark" || (!stored && osDark)) document.body.classList.add("dark");
+      if (stored === "dark") document.body.classList.add("dark");
     })();
   </script>
 

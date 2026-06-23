@@ -10,12 +10,12 @@ window.PTD_DEMO_LANES.push({
     "recorded": "2026-06-22",
     "timing_source": "measured",
     "run_config": {
-      "note": "MEASURED: per-method throughput (tok/s), token count, accepted-length and answer text are measured on NVIDIA B200 (GSM8K, Qwen3-8B). Token-level pacing within each lane is reconstructed from the measured throughput (aggregate speed is recorded, not per-token wall-clock); relative lane speeds are preserved. Export decode_time_s=0.8962s (inconsistent with tps for spec lanes; race timed by tps).",
-      "target_tps": 219.253,
-      "measured_tps": 219.253,
+      "note": "MEASURED: per-method throughput (tok/s), token count, accepted-length and answer text are measured on NVIDIA B200 (GSM8K, Qwen3-8B). Token-level pacing within each lane is reconstructed from the measured throughput (aggregate speed is recorded, not per-token wall-clock); relative lane speeds are preserved. Export decode_time_s=1.3497s (inconsistent with tps for spec lanes; race timed by tps).",
+      "target_tps": 217.924,
+      "measured_tps": 217.924,
       "samples": 16,
       "world_size": 1,
-      "accept_len_mean": 5.6489
+      "accept_len_mean": 6.149
     }
   },
   "prompt": {
@@ -27,601 +27,638 @@ window.PTD_DEMO_LANES.push({
     {
       "idx": 0,
       "t_ms": 0.0,
-      "dur_ms": 27.3657,
-      "end_ms": 27.3657,
-      "text": "Let's solve this s",
+      "dur_ms": 32.1214,
+      "end_ms": 32.1214,
+      "text": "We are given the following i",
       "token_texts": [
-        "Let's ",
-        "s",
-        "olve ",
-        "t",
-        "his ",
-        "s"
+        "We are ",
+        "g",
+        "iven ",
+        "the ",
+        "f",
+        "ollowing ",
+        "i"
       ],
-      "accepted_count": 6
+      "accepted_count": 7
     },
     {
       "idx": 1,
-      "t_ms": 27.3657,
-      "dur_ms": 27.3657,
-      "end_ms": 54.7314,
-      "text": "tep by step.\n\n-",
+      "t_ms": 32.1214,
+      "dur_ms": 32.1214,
+      "end_ms": 64.2427,
+      "text": "nformation:\n\n- Deepa ",
       "token_texts": [
-        "tep ",
-        "b",
-        "y ",
-        "step.\n",
+        "n",
+        "f",
+        "ormation:\n",
         "\n",
-        "-"
+        "-",
+        " ",
+        "Deepa "
       ],
-      "accepted_count": 6
+      "accepted_count": 7
     },
     {
       "idx": 2,
-      "t_ms": 54.7314,
-      "dur_ms": 27.3657,
-      "end_ms": 82.0971,
-      "text": "--\n\n### Step 1: ",
+      "t_ms": 64.2427,
+      "dur_ms": 32.1214,
+      "end_ms": 96.3641,
+      "text": "has seen **9** Fast ",
       "token_texts": [
-        "--\n",
-        "\n",
-        "### ",
-        "Step ",
-        "1",
-        ": "
+        "h",
+        "as ",
+        "seen ",
+        "*",
+        "*9** ",
+        "F",
+        "ast "
       ],
-      "accepted_count": 6
+      "accepted_count": 7
     },
     {
       "idx": 3,
-      "t_ms": 82.0971,
-      "dur_ms": 27.3657,
-      "end_ms": 109.4628,
-      "text": "Determine how m",
+      "t_ms": 96.3641,
+      "dur_ms": 32.1214,
+      "end_ms": 128.4854,
+      "text": "and the Furious movies.\n-",
       "token_texts": [
-        "Determine ",
-        "h",
-        "o",
-        "w",
-        " ",
-        "m"
+        "and ",
+        "t",
+        "he ",
+        "Furious ",
+        "m",
+        "ovies.\n",
+        "-"
       ],
-      "accepted_count": 6
+      "accepted_count": 7
     },
     {
       "idx": 4,
-      "t_ms": 109.4628,
-      "dur_ms": 27.3657,
-      "end_ms": 136.8285,
-      "text": "uch **Carmen** has",
+      "t_ms": 128.4854,
+      "dur_ms": 32.1214,
+      "end_ms": 160.6068,
+      "text": " She has seen **each ",
       "token_texts": [
-        "uch ",
+        " ",
+        "S",
+        "he ",
+        "has ",
+        "seen ",
         "*",
-        "*Carmen** ",
-        "h",
-        "a",
-        "s"
+        "*each "
       ],
-      "accepted_count": 6
+      "accepted_count": 7
     },
     {
       "idx": 5,
-      "t_ms": 136.8285,
-      "dur_ms": 27.3657,
-      "end_ms": 164.1942,
-      "text": "  \nCarmen has: ",
+      "t_ms": 160.6068,
+      "dur_ms": 32.1214,
+      "end_ms": 192.7282,
+      "text": "one** **three times**.\n-",
       "token_texts": [
-        " ",
-        " ",
-        "\nCarmen ",
-        "h",
-        "a",
-        "s: "
+        "o",
+        "ne** ",
+        "*",
+        "*three ",
+        "t",
+        "imes**.\n",
+        "-"
       ],
-      "accepted_count": 6
+      "accepted_count": 7
     },
     {
       "idx": 6,
-      "t_ms": 164.1942,
-      "dur_ms": 27.3657,
-      "end_ms": 191.5599,
-      "text": " \n$$\n\\$100\n$$\n",
+      "t_ms": 192.7282,
+      "dur_ms": 27.5326,
+      "end_ms": 220.2607,
+      "text": " She spent a ",
       "token_texts": [
         " ",
-        "\n",
-        "$$\n",
-        "\\$100\n",
-        "$",
-        "$\n"
+        "S",
+        "he ",
+        "spent ",
+        "a",
+        " "
       ],
       "accepted_count": 6
     },
     {
       "idx": 7,
-      "t_ms": 191.5599,
-      "dur_ms": 27.3657,
-      "end_ms": 218.9256,
-      "text": "\n---\n\n### Step 2",
+      "t_ms": 220.2607,
+      "dur_ms": 27.5326,
+      "end_ms": 247.7933,
+      "text": "total of **$216** on ",
       "token_texts": [
-        "\n",
-        "---\n",
-        "\n",
-        "### ",
-        "Step ",
-        "2"
+        "total ",
+        "of ",
+        "**$216** ",
+        "o",
+        "n",
+        " "
       ],
       "accepted_count": 6
     },
     {
       "idx": 8,
-      "t_ms": 218.9256,
-      "dur_ms": 27.3657,
-      "end_ms": 246.2913,
-      "text": ": Determine how ",
+      "t_ms": 247.7933,
+      "dur_ms": 27.5326,
+      "end_ms": 275.3259,
+      "text": "tickets.\n- We are ",
       "token_texts": [
-        ": ",
-        "Determine ",
-        "h",
-        "o",
-        "w",
-        " "
+        "tickets.\n",
+        "-",
+        " ",
+        "W",
+        "e ",
+        "are "
       ],
       "accepted_count": 6
     },
     {
       "idx": 9,
-      "t_ms": 246.2913,
-      "dur_ms": 27.3657,
-      "end_ms": 273.657,
-      "text": "much **Samantha** h",
+      "t_ms": 275.3259,
+      "dur_ms": 27.5326,
+      "end_ms": 302.8585,
+      "text": "asked to find the *",
       "token_texts": [
-        "m",
-        "uch ",
-        "*",
-        "*",
-        "Samantha** ",
-        "h"
+        "asked ",
+        "t",
+        "o ",
+        "find ",
+        "the ",
+        "*"
       ],
       "accepted_count": 6
     },
     {
       "idx": 10,
-      "t_ms": 273.657,
-      "dur_ms": 27.3657,
-      "end_ms": 301.0227,
-      "text": "as  \nSamantha h",
+      "t_ms": 302.8585,
+      "dur_ms": 27.5326,
+      "end_ms": 330.3911,
+      "text": "*average price per ",
       "token_texts": [
-        "a",
-        "s",
-        " ",
-        " ",
-        "\nSamantha ",
-        "h"
+        "*average ",
+        "p",
+        "r",
+        "ice ",
+        "p",
+        "er "
       ],
       "accepted_count": 6
     },
     {
       "idx": 11,
-      "t_ms": 301.0227,
-      "dur_ms": 27.3657,
-      "end_ms": 328.3884,
-      "text": "as **\\$25 mo",
+      "t_ms": 330.3911,
+      "dur_ms": 27.5326,
+      "end_ms": 357.9237,
+      "text": "ticket**.\n\n---\n\n### ",
       "token_texts": [
-        "a",
-        "s",
-        " ",
-        "**\\$25 ",
-        "m",
-        "o"
+        "ticket**.\n",
+        "\n",
+        "-",
+        "-",
+        "-\n",
+        "\n### "
       ],
       "accepted_count": 6
     },
     {
       "idx": 12,
-      "t_ms": 328.3884,
-      "dur_ms": 27.3657,
-      "end_ms": 355.7541,
-      "text": "re** than Carmen: ",
+      "t_ms": 357.9237,
+      "dur_ms": 27.5326,
+      "end_ms": 385.4563,
+      "text": "Step 1: Find the ",
       "token_texts": [
-        "re** ",
+        "Step ",
+        "1",
+        ": ",
+        "Find ",
         "t",
-        "h",
-        "an ",
-        "C",
-        "armen: "
+        "he "
       ],
       "accepted_count": 6
     },
     {
       "idx": 13,
-      "t_ms": 355.7541,
-      "dur_ms": 27.3657,
-      "end_ms": 383.1198,
-      "text": " \n$$\n\\$100 +",
+      "t_ms": 385.4563,
+      "dur_ms": 27.5326,
+      "end_ms": 412.9889,
+      "text": "total number of tickets ",
       "token_texts": [
-        " ",
-        "\n",
-        "$$\n",
-        "\\",
-        "$100 ",
-        "+"
+        "total ",
+        "n",
+        "umber ",
+        "o",
+        "f ",
+        "tickets "
       ],
       "accepted_count": 6
     },
     {
       "idx": 14,
-      "t_ms": 383.1198,
-      "dur_ms": 27.3657,
-      "end_ms": 410.4855,
-      "text": " \\$25 = \\$125\n$$",
+      "t_ms": 412.9889,
+      "dur_ms": 27.5326,
+      "end_ms": 440.5215,
+      "text": "she bought\n\nShe ",
       "token_texts": [
-        " ",
-        "\\$25 ",
-        "=",
-        " \\$125\n",
-        "$",
-        "$"
+        "s",
+        "he ",
+        "b",
+        "ought\n",
+        "\n",
+        "She "
       ],
       "accepted_count": 6
     },
     {
       "idx": 15,
-      "t_ms": 410.4855,
-      "dur_ms": 27.3657,
-      "end_ms": 437.8512,
-      "text": "\n\n---\n\n### Step ",
+      "t_ms": 440.5215,
+      "dur_ms": 27.5326,
+      "end_ms": 468.0541,
+      "text": "saw **9 movies**, an",
       "token_texts": [
-        "\n",
-        "\n---\n",
-        "\n",
-        "### ",
-        "S",
-        "tep "
+        "saw ",
+        "*",
+        "*9 ",
+        "movies**, ",
+        "a",
+        "n"
       ],
       "accepted_count": 6
     },
     {
       "idx": 16,
-      "t_ms": 437.8512,
-      "dur_ms": 27.3657,
-      "end_ms": 465.2169,
-      "text": "3: Determine how",
+      "t_ms": 468.0541,
+      "dur_ms": 27.5326,
+      "end_ms": 495.5867,
+      "text": "d each was seen *",
       "token_texts": [
-        "3",
-        ": ",
-        "Determine ",
-        "h",
-        "o",
-        "w"
+        "d ",
+        "each ",
+        "w",
+        "as ",
+        "seen ",
+        "*"
       ],
       "accepted_count": 6
     },
     {
       "idx": 17,
-      "t_ms": 465.2169,
-      "dur_ms": 27.3657,
-      "end_ms": 492.5826,
-      "text": " much **Daisy** ha",
+      "t_ms": 495.5867,
+      "dur_ms": 27.5326,
+      "end_ms": 523.1193,
+      "text": "*3 times**:\n\n$$\n\\",
       "token_texts": [
-        " ",
-        "much ",
-        "*",
-        "*Daisy** ",
-        "h",
-        "a"
+        "*3 ",
+        "times**:\n",
+        "\n",
+        "$",
+        "$\n",
+        "\\"
       ],
       "accepted_count": 6
     },
     {
       "idx": 18,
-      "t_ms": 492.5826,
-      "dur_ms": 27.3657,
-      "end_ms": 519.9483,
-      "text": "s  \nDaisy ha",
+      "t_ms": 523.1193,
+      "dur_ms": 27.5326,
+      "end_ms": 550.6519,
+      "text": "text{Total tickets} = ",
       "token_texts": [
-        "s",
-        " ",
-        " ",
-        "\nDaisy ",
-        "h",
-        "a"
+        "text{Total ",
+        "t",
+        "i",
+        "ckets} ",
+        "=",
+        " "
       ],
       "accepted_count": 6
     },
     {
       "idx": 19,
-      "t_ms": 519.9483,
-      "dur_ms": 27.3657,
-      "end_ms": 547.314,
-      "text": "s **\\$50 more** t",
+      "t_ms": 550.6519,
+      "dur_ms": 27.5326,
+      "end_ms": 578.1845,
+      "text": "9 \\times 3 = 27\n",
       "token_texts": [
-        "s ",
-        "**\\$50 ",
-        "m",
-        "o",
-        "re** ",
-        "t"
+        "9",
+        " \\times ",
+        "3",
+        " ",
+        "= ",
+        "27\n"
       ],
       "accepted_count": 6
     },
     {
       "idx": 20,
-      "t_ms": 547.314,
-      "dur_ms": 27.3657,
-      "end_ms": 574.6797,
-      "text": "han Samantha:  \n",
+      "t_ms": 578.1845,
+      "dur_ms": 27.5326,
+      "end_ms": 605.7171,
+      "text": "$$\n\n---\n\n### Step 2: ",
       "token_texts": [
-        "h",
-        "an ",
-        "S",
-        "amantha: ",
-        " ",
-        "\n"
+        "$$\n",
+        "\n---\n",
+        "\n",
+        "### ",
+        "Step ",
+        "2: "
       ],
       "accepted_count": 6
     },
     {
       "idx": 21,
-      "t_ms": 574.6797,
-      "dur_ms": 27.3657,
-      "end_ms": 602.0454,
-      "text": "$$\n\\$125 + ",
+      "t_ms": 605.7171,
+      "dur_ms": 27.5326,
+      "end_ms": 633.2496,
+      "text": "Find the average pr",
       "token_texts": [
-        "$",
-        "$\n",
-        "\\",
-        "$125 ",
-        "+",
-        " "
+        "Find ",
+        "t",
+        "he ",
+        "average ",
+        "p",
+        "r"
       ],
       "accepted_count": 6
     },
     {
       "idx": 22,
-      "t_ms": 602.0454,
-      "dur_ms": 27.3657,
-      "end_ms": 629.4111,
-      "text": "\\$50 = \\$175\n$$\n",
+      "t_ms": 633.2496,
+      "dur_ms": 27.5326,
+      "end_ms": 660.7822,
+      "text": "ice per ticket\n\nShe ",
       "token_texts": [
-        "\\$50 ",
-        "=",
-        " \\$175\n",
-        "$",
-        "$",
-        "\n"
+        "ice ",
+        "p",
+        "er ",
+        "ticket\n",
+        "\n",
+        "She "
       ],
       "accepted_count": 6
     },
     {
       "idx": 23,
-      "t_ms": 629.4111,
-      "dur_ms": 22.8048,
-      "end_ms": 652.2159,
-      "text": "\n---\n\n### Step ",
+      "t_ms": 660.7822,
+      "dur_ms": 27.5326,
+      "end_ms": 688.3148,
+      "text": "spent **$216** on",
       "token_texts": [
-        "\n---\n",
-        "\n",
-        "### ",
-        "S",
-        "tep "
+        "s",
+        "pent ",
+        "*",
+        "*$216** ",
+        "o",
+        "n"
       ],
-      "accepted_count": 5
+      "accepted_count": 6
     },
     {
       "idx": 24,
-      "t_ms": 652.2159,
-      "dur_ms": 22.8048,
-      "end_ms": 675.0206,
-      "text": "4: Add up t",
+      "t_ms": 688.3148,
+      "dur_ms": 27.5326,
+      "end_ms": 715.8474,
+      "text": " **27 tickets**. To ",
       "token_texts": [
-        "4",
-        ": ",
-        "Add ",
-        "up ",
-        "t"
+        " **27 ",
+        "t",
+        "ickets**. ",
+        "T",
+        "o",
+        " "
       ],
-      "accepted_count": 5
+      "accepted_count": 6
     },
     {
       "idx": 25,
-      "t_ms": 675.0206,
-      "dur_ms": 22.8048,
-      "end_ms": 697.8254,
-      "text": "he amounts of ",
+      "t_ms": 715.8474,
+      "dur_ms": 27.5326,
+      "end_ms": 743.38,
+      "text": "find the average pr",
       "token_texts": [
+        "find ",
+        "t",
         "he ",
-        "amounts ",
+        "average ",
+        "p",
+        "r"
+      ],
+      "accepted_count": 6
+    },
+    {
+      "idx": 26,
+      "t_ms": 743.38,
+      "dur_ms": 27.5326,
+      "end_ms": 770.9126,
+      "text": "ice per ticket:\n\n$",
+      "token_texts": [
+        "ice ",
+        "p",
+        "er ",
+        "ticket:\n",
+        "\n",
+        "$"
+      ],
+      "accepted_count": 6
+    },
+    {
+      "idx": 27,
+      "t_ms": 770.9126,
+      "dur_ms": 27.5326,
+      "end_ms": 798.4452,
+      "text": "$\n\\text{Average price ",
+      "token_texts": [
+        "$\n",
+        "\\t",
+        "ext{Average ",
+        "p",
+        "r",
+        "ice "
+      ],
+      "accepted_count": 6
+    },
+    {
+      "idx": 28,
+      "t_ms": 798.4452,
+      "dur_ms": 27.5326,
+      "end_ms": 825.9778,
+      "text": "per ticket} = \\",
+      "token_texts": [
+        "p",
+        "er ",
+        "ticket} ",
+        "=",
+        " ",
+        "\\"
+      ],
+      "accepted_count": 6
+    },
+    {
+      "idx": 29,
+      "t_ms": 825.9778,
+      "dur_ms": 27.5326,
+      "end_ms": 853.5104,
+      "text": "frac{\\text{Total cos",
+      "token_texts": [
+        "f",
+        "rac",
+        "{\\text{Total ",
+        "c",
+        "o",
+        "s"
+      ],
+      "accepted_count": 6
+    },
+    {
+      "idx": 30,
+      "t_ms": 853.5104,
+      "dur_ms": 27.5326,
+      "end_ms": 881.043,
+      "text": "t}}{\\text{Number of ",
+      "token_texts": [
+        "t",
+        "}}",
+        "{\\text{Number ",
         "o",
         "f",
         " "
       ],
-      "accepted_count": 5
-    },
-    {
-      "idx": 26,
-      "t_ms": 697.8254,
-      "dur_ms": 22.8048,
-      "end_ms": 720.6301,
-      "text": "all three girls ",
-      "token_texts": [
-        "all ",
-        "t",
-        "hree ",
-        "g",
-        "irls "
-      ],
-      "accepted_count": 5
-    },
-    {
-      "idx": 27,
-      "t_ms": 720.6301,
-      "dur_ms": 22.8048,
-      "end_ms": 743.4349,
-      "text": " \n$$\n\\$100 \\",
-      "token_texts": [
-        " ",
-        "\n",
-        "$$\n",
-        "\\$100 ",
-        "\\"
-      ],
-      "accepted_count": 5
-    },
-    {
-      "idx": 28,
-      "t_ms": 743.4349,
-      "dur_ms": 22.8048,
-      "end_ms": 766.2396,
-      "text": " (\\text{Carmen}) ",
-      "token_texts": [
-        " ",
-        "(",
-        "\\",
-        "te",
-        "xt{Carmen}) "
-      ],
-      "accepted_count": 5
-    },
-    {
-      "idx": 29,
-      "t_ms": 766.2396,
-      "dur_ms": 22.8048,
-      "end_ms": 789.0444,
-      "text": "+ \\$125 ",
-      "token_texts": [
-        "+",
-        " ",
-        "\\",
-        "$",
-        "125 "
-      ],
-      "accepted_count": 5
-    },
-    {
-      "idx": 30,
-      "t_ms": 789.0444,
-      "dur_ms": 22.8048,
-      "end_ms": 811.8491,
-      "text": "\\ (\\text{Samantha}) ",
-      "token_texts": [
-        "\\",
-        " ",
-        "(\\",
-        "te",
-        "xt{Samantha}) "
-      ],
-      "accepted_count": 5
+      "accepted_count": 6
     },
     {
       "idx": 31,
-      "t_ms": 811.8491,
-      "dur_ms": 22.8048,
-      "end_ms": 834.6539,
-      "text": "+ \\$175 ",
+      "t_ms": 881.043,
+      "dur_ms": 27.5326,
+      "end_ms": 908.5756,
+      "text": "tickets}} = \\fr",
       "token_texts": [
-        "+",
-        " ",
-        "\\",
-        "$",
-        "175 "
-      ],
-      "accepted_count": 5
-    },
-    {
-      "idx": 32,
-      "t_ms": 834.6539,
-      "dur_ms": 22.8048,
-      "end_ms": 857.4587,
-      "text": "\\ (\\text{Daisy}) ",
-      "token_texts": [
-        "\\",
-        " ",
-        "(",
-        "\\",
-        "text{Daisy}) "
-      ],
-      "accepted_count": 5
-    },
-    {
-      "idx": 33,
-      "t_ms": 857.4587,
-      "dur_ms": 22.8048,
-      "end_ms": 880.2634,
-      "text": "= \\$400\n",
-      "token_texts": [
+        "t",
+        "ickets}} ",
         "=",
         " ",
         "\\",
-        "$",
-        "400\n"
+        "fr"
       ],
-      "accepted_count": 5
+      "accepted_count": 6
+    },
+    {
+      "idx": 32,
+      "t_ms": 908.5756,
+      "dur_ms": 27.5326,
+      "end_ms": 936.1082,
+      "text": "ac{216}{27}\n$$\n\n$$\n",
+      "token_texts": [
+        "ac{216}{27}\n",
+        "$",
+        "$",
+        "\n",
+        "\n",
+        "$$\n"
+      ],
+      "accepted_count": 6
+    },
+    {
+      "idx": 33,
+      "t_ms": 936.1082,
+      "dur_ms": 27.5326,
+      "end_ms": 963.6408,
+      "text": "\\frac{216}{27} = 8\n$$\n",
+      "token_texts": [
+        "\\fr",
+        "ac{216}{27} ",
+        "=",
+        " ",
+        "8",
+        "\n$$\n"
+      ],
+      "accepted_count": 6
     },
     {
       "idx": 34,
-      "t_ms": 880.2634,
-      "dur_ms": 22.8048,
-      "end_ms": 903.0682,
-      "text": "$$\n\n---\n\n",
+      "t_ms": 963.6408,
+      "dur_ms": 27.5326,
+      "end_ms": 991.1734,
+      "text": "\n---\n\n### ✅ Final A",
       "token_texts": [
-        "$",
-        "$\n",
         "\n",
         "---\n",
-        "\n"
+        "\n### ",
+        "✅",
+        " Final ",
+        "A"
       ],
-      "accepted_count": 5
+      "accepted_count": 6
     },
     {
       "idx": 35,
-      "t_ms": 903.0682,
-      "dur_ms": 22.8048,
-      "end_ms": 925.8729,
-      "text": "### ✅ Final An",
+      "t_ms": 991.1734,
+      "dur_ms": 27.5326,
+      "end_ms": 1018.706,
+      "text": "nswer:\n\n$$\n\\boxed{8}\n$",
       "token_texts": [
-        "### ",
-        "✅",
-        " Final ",
-        "A",
-        "n"
+        "nswer:\n",
+        "\n",
+        "$",
+        "$\n",
+        "\\boxed{8}\n",
+        "$"
       ],
-      "accepted_count": 5
+      "accepted_count": 6
     },
     {
       "idx": 36,
-      "t_ms": 925.8729,
-      "dur_ms": 22.8048,
-      "end_ms": 948.6777,
-      "text": "swer:\n$$\n\\boxed{400}\n",
+      "t_ms": 1018.706,
+      "dur_ms": 27.5326,
+      "end_ms": 1046.2385,
+      "text": "$\n\nSo, the **average ",
       "token_texts": [
-        "swer:\n",
-        "$",
         "$",
         "\n",
-        "\\boxed{400}\n"
+        "\nSo, ",
+        "t",
+        "he ",
+        "**average "
       ],
-      "accepted_count": 5
+      "accepted_count": 6
     },
     {
       "idx": 37,
-      "t_ms": 948.6777,
-      "dur_ms": 22.8048,
-      "end_ms": 971.4824,
-      "text": "$$",
+      "t_ms": 1046.2385,
+      "dur_ms": 27.5326,
+      "end_ms": 1073.7711,
+      "text": "price per ticket** ",
       "token_texts": [
-        "$",
-        "$",
-        "",
-        "",
-        ""
+        "p",
+        "r",
+        "ice ",
+        "p",
+        "er ",
+        "ticket** "
       ],
-      "accepted_count": 5
+      "accepted_count": 6
+    },
+    {
+      "idx": 38,
+      "t_ms": 1073.7711,
+      "dur_ms": 27.5326,
+      "end_ms": 1101.3037,
+      "text": "is **$8**.",
+      "token_texts": [
+        "i",
+        "s",
+        " ",
+        "*",
+        "*$8",
+        "**."
+      ],
+      "accepted_count": 6
     }
   ],
   "totals": {
-    "tokens": 213,
-    "wall_ms": 971.4831,
-    "tps": 219.253,
-    "accept_len_mean": 5.6489
+    "tokens": 240,
+    "wall_ms": 1101.3042,
+    "tps": 217.924,
+    "accept_len_mean": 6.149
   }
 });
