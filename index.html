@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="light dark">
   <title>JetFlow: Parallel Tree Drafting</title>
   <meta name="description" content="JetFlow: Breaking the Scaling Ceiling of Speculative Decoding with Parallel Tree Drafting. Live decoding replay + results from the paper.">
-  <link rel="stylesheet" href="site.css?v=82ec153c">
+  <link rel="stylesheet" href="site.css?v=9b262a24">
 </head>
 <body>
   <script>
@@ -299,7 +299,7 @@
       </figure>
 
       <p class="table-summary">
-        At budget&nbsp;256 (greedy), JetFlow leads DFlash-T on every benchmark: MATH-500 9.64&times; vs
+        At budget&nbsp;256 (greedy), JetFlow leads DFlash-T (the tree-based variant of DFlash) on every benchmark: MATH-500 9.64&times; vs
         8.78&times;, GSM8K 7.82&times; vs 7.04&times;, HumanEval 7.12&times; vs 6.31&times;. The full grid:
       </p>
       <div class="table-scroll">
@@ -326,7 +326,7 @@
           <tr><th>JetFlow</th><td class="num">128</td><td class="num">6.76</td><td class="num">7.49</td><td class="num">7.39</td><td class="num">8.36</td><td class="num">5.76</td><td class="num">6.49</td><td class="num">5.82</td><td class="num">6.39</td><td class="num">5.78</td><td class="num">6.39</td><td class="num">6.84</td><td class="num">7.74</td><td class="num">3.99</td><td class="num">5.01</td></tr>
           <tr class="hl"><th>JetFlow</th><td class="num">256</td><td class="num">7.16</td><td class="num">8.03</td><td class="num">7.83</td><td class="num">9.01</td><td class="num">5.94</td><td class="num">7.06</td><td class="num">6.19</td><td class="num">6.85</td><td class="num">6.11</td><td class="num">6.83</td><td class="num">7.25</td><td class="num">8.29</td><td class="num">4.06</td><td class="num">5.22</td></tr>
         </tbody>
-        <caption>End-to-end speedup (Spd, &times; over autoregressive decoding) and mean accepted length (&tau;, tokens per round) on Qwen3-8B; budget is the draft-token count. DFlash-T denotes the tree-based variant of DFlash. EAGLE-3&rsquo;s autoregressive head saturates past 64 draft tokens, while JetFlow leads every benchmark at every budget under both greedy (T=0) and sampling (T=1). Numbers reproduced from the paper&rsquo;s main results table.</caption>
+        <caption>End-to-end speedup (Spd, &times; over autoregressive decoding) and mean accepted length (&tau;, tokens per round) on Qwen3-8B; budget is the draft-token count. EAGLE-3&rsquo;s autoregressive head saturates past 64 draft tokens, while JetFlow leads every benchmark at every budget under both greedy (T=0) and sampling (T=1). Numbers reproduced from the paper&rsquo;s main results table.</caption>
       </table>
       </div>
 
@@ -387,16 +387,16 @@
     window.PTD_DEMO_RATE = 0.25; /* slow the viewing 4x for legibility; tape times (and TPS) stay real */
     window.PTD_DEMO_LANES = window.PTD_DEMO_LANES || [];
   </script>
-  <script src="lane_ar_hf.js?v=82ec153c"></script>
-  <script src="lane_dflash.js?v=82ec153c"></script>
-  <script src="lane_ptd.js?v=82ec153c"></script>
+  <script src="lane_ar_hf.js?v=9b262a24"></script>
+  <script src="lane_dflash.js?v=9b262a24"></script>
+  <script src="lane_ptd.js?v=9b262a24"></script>
   <script>
     window.PTD_DEMO_LANES_ALL = (window.PTD_DEMO_LANES || []).slice();
     window.PTD_DEMO_LANES = window.PTD_DEMO_LANES_ALL.filter(function (lane) { return lane.lane.method !== "vLLM"; });
   </script>
-  <script src="tree-panel.js?v=82ec153c"></script>
-  <script src="player.js?v=82ec153c"></script>
-  <script src="site.js?v=82ec153c"></script>
+  <script src="tree-panel.js?v=9b262a24"></script>
+  <script src="player.js?v=9b262a24"></script>
+  <script src="site.js?v=9b262a24"></script>
 
   <script>
     /* pin each terminal to its latest tokens + clean lane labels (PTD→JetFlow, no SYNTHETIC) */
@@ -434,9 +434,9 @@
     })();
   </script>
 
-  <script src="treewalk.js?v=82ec153c"></script>
+  <script src="treewalk.js?v=9b262a24"></script>
 
-  <script src="engine_tape.js?v=82ec153c"></script>
+  <script src="engine_tape.js?v=9b262a24"></script>
   <script>
     /* §4 engine demo: tape-driven replay of REAL JetFlow e3-engine generation over
        12 chained MATH-500 problems. The per-problem TPS steps once per problem (not a
