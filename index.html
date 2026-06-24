@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="light dark">
   <title>JetFlow: Parallel Tree Drafting</title>
   <meta name="description" content="JetFlow: Breaking the Scaling Ceiling of Speculative Decoding with Parallel Tree Drafting. Live decoding replay + results from the paper.">
-  <link rel="stylesheet" href="site.css?v=9b262a24">
+  <link rel="stylesheet" href="site.css?v=3d7efb89">
 </head>
 <body>
   <script>
@@ -118,16 +118,6 @@
         verifier follows, faithful to the target, and it does so without tuning the loss weighting.
       </p>
 
-      <h3 class="subhead">Branch faithfulness</h3>
-      <p>
-        A block-diffusion head produces all positions from one shared hidden state with no causal mask between depths,
-        so the depth-2 distribution never conditions on the token chosen at depth&nbsp;1. When two positions independently
-        favour tokens that cannot follow each other, the surrogate still scores their composition highly and promotes it
-        to the top of the tree. The causal head masks between depths, anchoring each position to the model&rsquo;s own
-        choice at the previous one, so its rank-1 branch carries a score the target agrees with. One drafting round makes
-        the difference concrete:
-      </p>
-
       <figure class="treebuild" id="treewalk" data-stage="draft" data-head="jetflow">
         <div class="tb-toolbar">
           <div class="tb-stages" role="group" aria-label="Stages">
@@ -160,6 +150,15 @@
           <span class="src">Illustrative round (representative tokens and shape); on real runs JetFlow&rsquo;s mean accepted length reaches &tau;=10.76 tokens per round (MATH-500, budget 256).</span>
         </figcaption>
       </figure>
+
+      <h3 class="subhead">Branch faithfulness</h3>
+      <p>
+        A block-diffusion head produces all positions from one shared hidden state with no causal mask between depths,
+        so the depth-2 distribution never conditions on the token chosen at depth&nbsp;1. When two positions independently
+        favour tokens that cannot follow each other, the surrogate still scores their composition highly and promotes it
+        to the top of the tree. The causal head masks between depths, anchoring each position to the model&rsquo;s own
+        choice at the previous one, so its rank-1 branch carries a score the target agrees with.
+      </p>
 
       <table class="dtable">
         <thead><tr><th>Rank-1 branch faithfulness (50 MATH-500 prompts, no loss weighting)</th><th class="num">Causal</th><th class="num">Diffusion</th></tr></thead>
@@ -283,9 +282,10 @@
         Only the head is trained; the target stays frozen, so JetFlow attaches to a model already in production
         without touching its weights. The head reads fused multi-layer features from the target and is supervised
         against the target&rsquo;s own next-token distributions rather than hard labels, so it inherits the
-        relative preferences among candidate tokens that a tree needs in order to rank branches. Supervision is
-        causal across draft depths: every position is trained conditioned on the tokens chosen earlier in its
-        branch, which is what lets a single parallel pass emit a tree whose branches stay internally consistent.
+        relative preferences among candidate tokens that a tree needs in order to rank branches. We train with a
+        causal mask over selected anchor positions, with each anchor expanded into a 16-token draft block. Each
+        draft position attends to preceding positions within its block, enabling a single parallel pass to
+        produce an internally consistent draft tree.
       </p>
 
       <figure class="fig paperfig">
@@ -299,7 +299,7 @@
       </figure>
 
       <p class="table-summary">
-        At budget&nbsp;256 (greedy), JetFlow leads DFlash-T (the tree-based variant of DFlash) on every benchmark: MATH-500 9.64&times; vs
+        At budget&nbsp;256 (greedy), JetFlow leads DDTree on every benchmark: MATH-500 9.64&times; vs
         8.78&times;, GSM8K 7.82&times; vs 7.04&times;, HumanEval 7.12&times; vs 6.31&times;. The full grid:
       </p>
       <div class="table-scroll">
@@ -311,17 +311,17 @@
         <tbody>
           <tr class="grp"><th colspan="16">Temperature = 0 (greedy)</th></tr>
           <tr><th>EAGLE-3</th><td class="num">64</td><td class="num">2.53</td><td class="num">4.31</td><td class="num">2.36</td><td class="num">4.13</td><td class="num">2.35</td><td class="num">4.04</td><td class="num">2.49</td><td class="num">4.26</td><td class="num">2.22</td><td class="num">3.81</td><td class="num">2.09</td><td class="num">3.62</td><td class="num">2.19</td><td class="num">3.88</td></tr>
-          <tr><th>DFlash-T</th><td class="num">64</td><td class="num">5.63</td><td class="num">6.18</td><td class="num">6.51</td><td class="num">7.16</td><td class="num">6.40</td><td class="num">6.96</td><td class="num">5.08</td><td class="num">5.57</td><td class="num">4.99</td><td class="num">5.49</td><td class="num">5.47</td><td class="num">6.06</td><td class="num">3.74</td><td class="num">4.51</td></tr>
-          <tr><th>DFlash-T</th><td class="num">128</td><td class="num">6.63</td><td class="num">7.31</td><td class="num">8.27</td><td class="num">9.19</td><td class="num">7.93</td><td class="num">8.66</td><td class="num">5.93</td><td class="num">6.52</td><td class="num">5.70</td><td class="num">6.28</td><td class="num">6.42</td><td class="num">7.25</td><td class="num">4.12</td><td class="num">5.14</td></tr>
-          <tr><th>DFlash-T</th><td class="num">256</td><td class="num">7.04</td><td class="num">7.77</td><td class="num">8.78</td><td class="num">9.81</td><td class="num">8.33</td><td class="num">9.24</td><td class="num">6.31</td><td class="num">6.96</td><td class="num">6.09</td><td class="num">6.70</td><td class="num">6.75</td><td class="num">7.72</td><td class="num">4.26</td><td class="num">5.41</td></tr>
+          <tr><th>DDTree</th><td class="num">64</td><td class="num">5.63</td><td class="num">6.18</td><td class="num">6.51</td><td class="num">7.16</td><td class="num">6.40</td><td class="num">6.96</td><td class="num">5.08</td><td class="num">5.57</td><td class="num">4.99</td><td class="num">5.49</td><td class="num">5.47</td><td class="num">6.06</td><td class="num">3.74</td><td class="num">4.51</td></tr>
+          <tr><th>DDTree</th><td class="num">128</td><td class="num">6.63</td><td class="num">7.31</td><td class="num">8.27</td><td class="num">9.19</td><td class="num">7.93</td><td class="num">8.66</td><td class="num">5.93</td><td class="num">6.52</td><td class="num">5.70</td><td class="num">6.28</td><td class="num">6.42</td><td class="num">7.25</td><td class="num">4.12</td><td class="num">5.14</td></tr>
+          <tr><th>DDTree</th><td class="num">256</td><td class="num">7.04</td><td class="num">7.77</td><td class="num">8.78</td><td class="num">9.81</td><td class="num">8.33</td><td class="num">9.24</td><td class="num">6.31</td><td class="num">6.96</td><td class="num">6.09</td><td class="num">6.70</td><td class="num">6.75</td><td class="num">7.72</td><td class="num">4.26</td><td class="num">5.41</td></tr>
           <tr><th>JetFlow</th><td class="num">64</td><td class="num">5.98</td><td class="num">6.56</td><td class="num">6.76</td><td class="num">7.42</td><td class="num">6.47</td><td class="num">7.00</td><td class="num">5.53</td><td class="num">6.06</td><td class="num">5.34</td><td class="num">5.88</td><td class="num">5.95</td><td class="num">6.59</td><td class="num">3.97</td><td class="num">4.77</td></tr>
           <tr><th>JetFlow</th><td class="num">128</td><td class="num">7.34</td><td class="num">8.05</td><td class="num">8.93</td><td class="num">9.95</td><td class="num">8.26</td><td class="num">9.10</td><td class="num">6.66</td><td class="num">7.28</td><td class="num">6.31</td><td class="num">6.95</td><td class="num">7.29</td><td class="num">8.21</td><td class="num">4.37</td><td class="num">5.52</td></tr>
           <tr class="hl"><th>JetFlow</th><td class="num">256</td><td class="num">7.82</td><td class="num">8.62</td><td class="num">9.64</td><td class="num">10.76</td><td class="num">8.78</td><td class="num">9.82</td><td class="num">7.12</td><td class="num">7.78</td><td class="num">6.73</td><td class="num">7.43</td><td class="num">7.67</td><td class="num">8.79</td><td class="num">4.58</td><td class="num">5.94</td></tr>
           <tr class="grp"><th colspan="16">Temperature = 1 (sampling)</th></tr>
           <tr><th>EAGLE-3</th><td class="num">64</td><td class="num">2.35</td><td class="num">4.17</td><td class="num">2.23</td><td class="num">4.00</td><td class="num">2.11</td><td class="num">3.73</td><td class="num">2.35</td><td class="num">4.13</td><td class="num">2.13</td><td class="num">3.70</td><td class="num">1.99</td><td class="num">3.49</td><td class="num">1.96</td><td class="num">3.63</td></tr>
-          <tr><th>DFlash-T</th><td class="num">64</td><td class="num">5.28</td><td class="num">5.77</td><td class="num">5.68</td><td class="num">6.26</td><td class="num">4.94</td><td class="num">5.46</td><td class="num">4.65</td><td class="num">5.09</td><td class="num">4.65</td><td class="num">5.11</td><td class="num">5.28</td><td class="num">5.82</td><td class="num">3.50</td><td class="num">4.22</td></tr>
-          <tr><th>DFlash-T</th><td class="num">128</td><td class="num">6.11</td><td class="num">6.72</td><td class="num">6.79</td><td class="num">7.60</td><td class="num">5.40</td><td class="num">5.98</td><td class="num">5.29</td><td class="num">5.76</td><td class="num">5.22</td><td class="num">5.75</td><td class="num">5.99</td><td class="num">6.71</td><td class="num">3.66</td><td class="num">4.59</td></tr>
-          <tr><th>DFlash-T</th><td class="num">256</td><td class="num">6.41</td><td class="num">7.17</td><td class="num">7.10</td><td class="num">8.13</td><td class="num">5.26</td><td class="num">6.20</td><td class="num">5.43</td><td class="num">6.03</td><td class="num">5.49</td><td class="num">6.12</td><td class="num">6.26</td><td class="num">7.17</td><td class="num">3.81</td><td class="num">4.88</td></tr>
+          <tr><th>DDTree</th><td class="num">64</td><td class="num">5.28</td><td class="num">5.77</td><td class="num">5.68</td><td class="num">6.26</td><td class="num">4.94</td><td class="num">5.46</td><td class="num">4.65</td><td class="num">5.09</td><td class="num">4.65</td><td class="num">5.11</td><td class="num">5.28</td><td class="num">5.82</td><td class="num">3.50</td><td class="num">4.22</td></tr>
+          <tr><th>DDTree</th><td class="num">128</td><td class="num">6.11</td><td class="num">6.72</td><td class="num">6.79</td><td class="num">7.60</td><td class="num">5.40</td><td class="num">5.98</td><td class="num">5.29</td><td class="num">5.76</td><td class="num">5.22</td><td class="num">5.75</td><td class="num">5.99</td><td class="num">6.71</td><td class="num">3.66</td><td class="num">4.59</td></tr>
+          <tr><th>DDTree</th><td class="num">256</td><td class="num">6.41</td><td class="num">7.17</td><td class="num">7.10</td><td class="num">8.13</td><td class="num">5.26</td><td class="num">6.20</td><td class="num">5.43</td><td class="num">6.03</td><td class="num">5.49</td><td class="num">6.12</td><td class="num">6.26</td><td class="num">7.17</td><td class="num">3.81</td><td class="num">4.88</td></tr>
           <tr><th>JetFlow</th><td class="num">64</td><td class="num">5.63</td><td class="num">6.19</td><td class="num">5.97</td><td class="num">6.60</td><td class="num">4.95</td><td class="num">5.48</td><td class="num">5.02</td><td class="num">5.52</td><td class="num">5.00</td><td class="num">5.51</td><td class="num">5.76</td><td class="num">6.38</td><td class="num">3.63</td><td class="num">4.37</td></tr>
           <tr><th>JetFlow</th><td class="num">128</td><td class="num">6.76</td><td class="num">7.49</td><td class="num">7.39</td><td class="num">8.36</td><td class="num">5.76</td><td class="num">6.49</td><td class="num">5.82</td><td class="num">6.39</td><td class="num">5.78</td><td class="num">6.39</td><td class="num">6.84</td><td class="num">7.74</td><td class="num">3.99</td><td class="num">5.01</td></tr>
           <tr class="hl"><th>JetFlow</th><td class="num">256</td><td class="num">7.16</td><td class="num">8.03</td><td class="num">7.83</td><td class="num">9.01</td><td class="num">5.94</td><td class="num">7.06</td><td class="num">6.19</td><td class="num">6.85</td><td class="num">6.11</td><td class="num">6.83</td><td class="num">7.25</td><td class="num">8.29</td><td class="num">4.06</td><td class="num">5.22</td></tr>
@@ -387,16 +387,16 @@
     window.PTD_DEMO_RATE = 0.25; /* slow the viewing 4x for legibility; tape times (and TPS) stay real */
     window.PTD_DEMO_LANES = window.PTD_DEMO_LANES || [];
   </script>
-  <script src="lane_ar_hf.js?v=9b262a24"></script>
-  <script src="lane_dflash.js?v=9b262a24"></script>
-  <script src="lane_ptd.js?v=9b262a24"></script>
+  <script src="lane_ar_hf.js?v=3d7efb89"></script>
+  <script src="lane_dflash.js?v=3d7efb89"></script>
+  <script src="lane_ptd.js?v=3d7efb89"></script>
   <script>
     window.PTD_DEMO_LANES_ALL = (window.PTD_DEMO_LANES || []).slice();
     window.PTD_DEMO_LANES = window.PTD_DEMO_LANES_ALL.filter(function (lane) { return lane.lane.method !== "vLLM"; });
   </script>
-  <script src="tree-panel.js?v=9b262a24"></script>
-  <script src="player.js?v=9b262a24"></script>
-  <script src="site.js?v=9b262a24"></script>
+  <script src="tree-panel.js?v=3d7efb89"></script>
+  <script src="player.js?v=3d7efb89"></script>
+  <script src="site.js?v=3d7efb89"></script>
 
   <script>
     /* pin each terminal to its latest tokens + clean lane labels (PTD→JetFlow, no SYNTHETIC) */
@@ -408,7 +408,7 @@
       };
       new MutationObserver(pin).observe(grid, { subtree: true, childList: true, characterData: true });
       setInterval(pin, 200);
-      var TITLES = { AR: "AR baseline", DFlash: "DFlash", PTD: "JetFlow" };
+      var TITLES = { AR: "AR baseline", DFlash: "DDTree", PTD: "JetFlow" };
       setTimeout(function () {
         grid.querySelectorAll(".lane-title").forEach(function (el) {
           var m = el.textContent.split(" - ")[0].trim();
@@ -434,9 +434,9 @@
     })();
   </script>
 
-  <script src="treewalk.js?v=9b262a24"></script>
+  <script src="treewalk.js?v=3d7efb89"></script>
 
-  <script src="engine_tape.js?v=9b262a24"></script>
+  <script src="engine_tape.js?v=3d7efb89"></script>
   <script>
     /* §4 engine demo: tape-driven replay of REAL JetFlow e3-engine generation over
        12 chained MATH-500 problems. The per-problem TPS steps once per problem (not a
