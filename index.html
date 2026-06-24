@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="light dark">
   <title>JetSpec: Parallel Tree Drafting</title>
   <meta name="description" content="JetSpec: Breaking the Scaling Ceiling of Speculative Decoding with Parallel Tree Drafting. Live decoding replay + results from the paper.">
-  <link rel="stylesheet" href="site.css?v=e341413c">
+  <link rel="stylesheet" href="site.css?v=2638596d">
 </head>
 <body>
   <script>
@@ -299,7 +299,7 @@
       </figure>
 
       <p class="table-summary">
-        At budget&nbsp;256 (greedy), JetSpec leads DDTree on every benchmark: MATH-500 9.64&times; vs
+        At budget&nbsp;256 (greedy), JetSpec leads <a href="https://arxiv.org/abs/2604.12989" target="_blank" rel="noopener">DDTree</a> on every benchmark: MATH-500 9.64&times; vs
         8.78&times;, GSM8K 7.82&times; vs 7.04&times;, HumanEval 7.12&times; vs 6.31&times;. The full grid:
       </p>
       <div class="table-scroll">
@@ -387,16 +387,16 @@
     window.PTD_DEMO_RATE = 0.25; /* slow the viewing 4x for legibility; tape times (and TPS) stay real */
     window.PTD_DEMO_LANES = window.PTD_DEMO_LANES || [];
   </script>
-  <script src="lane_ar_hf.js?v=e341413c"></script>
-  <script src="lane_dflash.js?v=e341413c"></script>
-  <script src="lane_ptd.js?v=e341413c"></script>
+  <script src="lane_ar_hf.js?v=2638596d"></script>
+  <script src="lane_dflash.js?v=2638596d"></script>
+  <script src="lane_ptd.js?v=2638596d"></script>
   <script>
     window.PTD_DEMO_LANES_ALL = (window.PTD_DEMO_LANES || []).slice();
     window.PTD_DEMO_LANES = window.PTD_DEMO_LANES_ALL.filter(function (lane) { return lane.lane.method !== "vLLM"; });
   </script>
-  <script src="tree-panel.js?v=e341413c"></script>
-  <script src="player.js?v=e341413c"></script>
-  <script src="site.js?v=e341413c"></script>
+  <script src="tree-panel.js?v=2638596d"></script>
+  <script src="player.js?v=2638596d"></script>
+  <script src="site.js?v=2638596d"></script>
 
   <script>
     /* pin each terminal to its latest tokens + clean lane labels (PTD→JetSpec, no SYNTHETIC) */
@@ -434,9 +434,9 @@
     })();
   </script>
 
-  <script src="treewalk.js?v=e341413c"></script>
+  <script src="treewalk.js?v=2638596d"></script>
 
-  <script src="engine_tape.js?v=e341413c"></script>
+  <script src="engine_tape.js?v=2638596d"></script>
   <script>
     /* §4 engine demo: tape-driven replay of REAL JetSpec e3-engine generation over
        12 chained MATH-500 problems. The per-problem TPS steps once per problem (not a
